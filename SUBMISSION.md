@@ -1,44 +1,69 @@
-# Jupiter integration: what to submit
+# Jupiter integration: the submission, step by step
 
-Form: https://support.jup.ag/requests/new/amm-integrators
-Discord: #developer-support on discord.gg/jup (mention the native-SOL point below)
+Done: SDK public at https://github.com/tow3web3/nts1-jupiter-sdk (adapter, parity suite,
+program source), audit brief at `docs/AUDIT.md`, traction script `node scripts/traction.mjs`.
 
-## Text to paste
+## Step 1: Discord thread (5 minutes, before the form)
 
-**Project:** NTS-1, the Numbered Token Standard (https://nts1.fun). Every coin is a
-Token-2022 mint that is also member #N of a capped collection, with its own permanent
-constant-product bonding curve from the first second. Program
-`5ZmEp1vQj45R3itxEo6hgH8aX4E8UNCkRsTw13gjchco` on mainnet-beta, Anchor 0.32.
+1. Join https://discord.gg/jup, open the channel `#developer-support`.
+2. Post this:
 
-**SDK:** https://github.com/tow3web3/nts1-jupiter-sdk (Apache-2.0, forkable).
-Implements `jupiter-amm-interface::Amm` for the `Curve` account: deserialisation,
-exact-in quotes for buy (SOL -> coin) and sell (coin -> SOL), 1 % fee on the SOL
-side, swap account metas in on-chain order, `Swap::Placeholder { data: [0 | 1] }`
-for the direction. No network calls.
+```
+Hi, we're NTS-1 (https://nts1.fun), a Token-2022 standard where every coin is member #N of a capped collection and has its own permanent bonding curve from the first second. Program 5ZmEp1vQj45R3itxEo6hgH8aX4E8UNCkRsTw13gjchco on mainnet-beta.
 
-**Parity:** `tests/parity.rs` loads a committed mainnet snapshot of a live curve and
-the program binary into LiteSVM, runs `Amm::quote`, executes the native `buy` then
-`sell`, and asserts the on-chain token and lamport deltas equal the quotes exactly.
-We did not use `jupiter-amm-test-kit` because the program moves native SOL
-(lamports from and to the signer, like Pump / Moonshot / Boop), which the kit lists
-as a limitation. We would need a "wrapped buy / wrapped sell" style variant on the
-Jupiter side, as for those launchpads.
+We implemented the Amm trait: https://github.com/tow3web3/nts1-jupiter-sdk (Apache-2.0, forkable). It ships a LiteSVM parity suite on a committed mainnet snapshot: quote, then the native buy and sell, on-chain deltas equal the quotes exactly.
 
-**Markets:** one curve per coin, discoverable with `getProgramAccounts` on the
-program, `Curve` discriminator `[191,180,249,66,180,71,51,182]`, data length 135.
-Reserve mints `[WSOL, coin]`. New markets appear at mint time.
+One question before we submit the AMM integrators form: our swaps move native SOL (lamports from and to the signer, the same shape as Pump and Moonshot), so jupiter-amm-test-kit cannot drive them (SOL wrapping is a documented limitation). How do you want to handle the swap variant on your side for that? Happy to adapt the SDK to whatever shape you prefer.
+```
 
-**Security audit:** [link to the audit report]
+3. Note the answer; if they ask for changes, forward them to me.
 
-**Traction:** [coins minted, volume, holders, links to the site and the $NTS1 token]
+## Step 2: the audit (the real gate)
 
-**Team:** [names, links]
+Pick one, send them `docs/AUDIT.md` and the public repo. Indicative only, ask for quotes:
 
-## Before sending
+| Auditor | Notes |
+|---|---|
+| Sec3 | Solana-focused; X-Ray automated scan is cheap and fast, manual audit on top |
+| OtterSec | Solana specialists, premium, longer queue |
+| Zellic | strong on Solana, premium |
+| Neodyme | Solana security research team |
+| Halborn | large firm, wider scope |
 
-- [ ] Publish the SDK as its own public repository (copy of `jupiter/` from the
-      monorepo, with `tests/fixtures/` committed) and put the link above.
-- [ ] Audit of the program (the form asks for it; the curves hold SOL).
-- [ ] Traction numbers from https://nts1.fun/api/root.
-- [ ] Open a Discord thread first: ask how they want to handle the native-SOL swap
-      (dedicated variant), it unblocks the review.
+Ask for: scope = `programs/launchpad` (~1,500 lines), fixed-price quote, start date,
+report format they publish. Jupiter wants the report link.
+
+## Step 3: traction (keep minting, keep trading)
+
+Run `node scripts/traction.mjs` the day you submit and paste the output. The more
+coins traded on nts1.fun the better: Jupiter's market listing rule routes a market only
+if a $500 round trip moves the price less than 30 % (or a $1000 buy vs a $500 buy has
+under 20 % impact). A coin with a few SOL of reserve passes, an empty one does not.
+
+## Step 4: the form
+
+https://support.jup.ag/requests/new/amm-integrators
+
+- **Project:** NTS-1, the Numbered Token Standard, https://nts1.fun
+- **Program ID:** 5ZmEp1vQj45R3itxEo6hgH8aX4E8UNCkRsTw13gjchco (mainnet-beta)
+- **SDK repository:** https://github.com/tow3web3/nts1-jupiter-sdk (Apache-2.0, forkable; parity suite in `tests/parity.rs`, fixtures committed)
+- **Description:** paste this:
+
+```
+NTS-1 is a token standard on Token-2022: every coin is a fungible mint that is also member #N of a capped collection (TokenGroupMember / TokenGroup extensions) and trades on its own permanent constant-product bonding curve from the first second. One Curve account per coin is the market between SOL and the coin. Swaps are exact-in buy (SOL -> coin) and sell (coin -> SOL) with a 1 % fee on the SOL side. The SDK implements the Amm trait with no network calls (curve, config and stock accounts delivered through update) and emits the 11 swap accounts in on-chain order with Swap::Placeholder { data: [0 buy | 1 sell] }. Markets are discoverable with getProgramAccounts on the program (Curve discriminator [191,180,249,66,180,71,51,182], data length 135). Native SOL note: the program moves lamports from and to the signer (same shape as Pump and Moonshot), which is why parity is proven with our LiteSVM harness instead of the test kit; see the Discord thread <link>.
+```
+
+- **Security audit:** link to the report (Step 2)
+- **Traction:** output of `scripts/traction.mjs` + the $NTS1 token on pump.fun (CA 65XDoCF6mLGpp7nK8CnaVZV7TLAPeYjkva2K3LYr44vi)
+- **Team:** your name / handle, links
+
+## Step 5: review
+
+Jupiter may ask for SDK changes and will add a swap variant for the native-SOL shape
+on their side. Send me whatever they write; the code side is mine.
+
+## Step 6: after listing
+
+Each coin is its own market. Jupiter rechecks liquidity every 30 minutes and only routes
+the markets that pass the rule in Step 3. Aggregators and terminals (Axiom, DexScreener,
+Photon) then pick the coins up from Jupiter routing.
