@@ -1,0 +1,2320 @@
+{
+  "address": "5ZmEp1vQj45R3itxEo6hgH8aX4E8UNCkRsTw13gjchco",
+  "metadata": {
+    "name": "launchpad",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "PADPADPAD: numbered monsters, one Token-2022 group per launchpad, one bonding curve per monster"
+  },
+  "instructions": [
+    {
+      "name": "buy",
+      "docs": [
+        "SOL in, tokens out. `sol_in` is gross: the fee comes out of it."
+      ],
+      "discriminator": [
+        102,
+        6,
+        61,
+        18,
+        1,
+        218,
+        235,
+        234
+      ],
+      "accounts": [
+        {
+          "name": "buyer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "treasury",
+          "writable": true,
+          "relations": [
+            "config"
+          ]
+        },
+        {
+          "name": "group",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  114,
+                  111,
+                  117,
+                  112
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "curve.group",
+                "account": "Curve"
+              }
+            ]
+          }
+        },
+        {
+          "name": "curve",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  117,
+                  114,
+                  118,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "stock",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  116,
+                  111,
+                  99,
+                  107
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "trader_ata",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "buyer"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "sol_in",
+          "type": "u64"
+        },
+        {
+          "name": "min_tokens_out",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "claim",
+      "docs": [
+        "The visitor comes back with a wallet and the secret from their session."
+      ],
+      "discriminator": [
+        62,
+        198,
+        214,
+        193,
+        213,
+        159,
+        108,
+        210
+      ],
+      "accounts": [
+        {
+          "name": "claimer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "launch",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  97,
+                  117,
+                  110,
+                  99,
+                  104
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "writable": true
+        },
+        {
+          "name": "group_mint"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+        }
+      ],
+      "args": [
+        {
+          "name": "secret",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nickname",
+          "type": {
+            "option": "string"
+          }
+        }
+      ]
+    },
+    {
+      "name": "create_group",
+      "docs": [
+        "A sub-launchpad: a group mint (cap, theme, owner) that is itself a",
+        "numbered member of the root. The creator pays the rent and may prefund",
+        "the launch budget in the same transaction."
+      ],
+      "discriminator": [
+        79,
+        60,
+        158,
+        134,
+        61,
+        199,
+        56,
+        248
+      ],
+      "accounts": [
+        {
+          "name": "creator",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "root_mint",
+          "writable": true,
+          "relations": [
+            "config"
+          ]
+        },
+        {
+          "name": "root_group",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  114,
+                  111,
+                  117,
+                  112
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "root_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "group",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  114,
+                  111,
+                  117,
+                  112
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "a",
+          "type": {
+            "defined": {
+              "name": "GroupArgs"
+            }
+          }
+        },
+        {
+          "name": "budget",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "expire",
+      "docs": [
+        "Unclaimed after the TTL and never traded: the curve closes, its rent and",
+        "the stock's go back to the group budget. The number stays consumed and",
+        "the mint keeps its metadata with a supply of zero."
+      ],
+      "discriminator": [
+        243,
+        83,
+        205,
+        58,
+        57,
+        201,
+        247,
+        146
+      ],
+      "accounts": [
+        {
+          "name": "cranker",
+          "signer": true
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "group",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  114,
+                  111,
+                  117,
+                  112
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "launch.group",
+                "account": "Launch"
+              }
+            ]
+          }
+        },
+        {
+          "name": "launch",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  97,
+                  117,
+                  110,
+                  99,
+                  104
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "curve",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  117,
+                  114,
+                  118,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "stock",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  116,
+                  111,
+                  99,
+                  107
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "writable": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "fund_group",
+      "docs": [
+        "Anyone can add lamports to a group's launch budget."
+      ],
+      "discriminator": [
+        110,
+        191,
+        120,
+        38,
+        155,
+        163,
+        152,
+        121
+      ],
+      "accounts": [
+        {
+          "name": "funder",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "group",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  114,
+                  111,
+                  117,
+                  112
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "group.mint",
+                "account": "Group"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "lamports",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "init_config",
+      "docs": [
+        "Creates Config and the root group mint. The root is a group like any",
+        "other (owner = admin); sub-launchpads and direct monsters are its members."
+      ],
+      "discriminator": [
+        23,
+        235,
+        115,
+        232,
+        168,
+        96,
+        1,
+        231
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "root_mint",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  111,
+                  111,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "root_group",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  114,
+                  111,
+                  117,
+                  112
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "root_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "p",
+          "type": {
+            "defined": {
+              "name": "ConfigParams"
+            }
+          }
+        },
+        {
+          "name": "root",
+          "type": {
+            "defined": {
+              "name": "GroupArgs"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "launch",
+      "docs": [
+        "One click, one monster. Signed by the backend payer (rent reimbursed",
+        "from the group budget, creator pending until `claim`) or by any wallet",
+        "paying its own rent (then it is the creator right away)."
+      ],
+      "discriminator": [
+        153,
+        241,
+        93,
+        225,
+        22,
+        69,
+        74,
+        61
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "group",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  114,
+                  111,
+                  117,
+                  112
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "group_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "group_mint",
+          "writable": true
+        },
+        {
+          "name": "mint",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "launch",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  97,
+                  117,
+                  110,
+                  99,
+                  104
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "curve",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  117,
+                  114,
+                  118,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "stock",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  116,
+                  111,
+                  99,
+                  107
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "a",
+          "type": {
+            "defined": {
+              "name": "LaunchArgs"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "sell",
+      "docs": [
+        "Tokens in, SOL out. The fee comes out of the SOL returned."
+      ],
+      "discriminator": [
+        51,
+        230,
+        133,
+        164,
+        1,
+        127,
+        131,
+        173
+      ],
+      "accounts": [
+        {
+          "name": "buyer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "treasury",
+          "writable": true,
+          "relations": [
+            "config"
+          ]
+        },
+        {
+          "name": "group",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  114,
+                  111,
+                  117,
+                  112
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "curve.group",
+                "account": "Curve"
+              }
+            ]
+          }
+        },
+        {
+          "name": "curve",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  117,
+                  114,
+                  118,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "stock",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  116,
+                  111,
+                  99,
+                  107
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "trader_ata",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "buyer"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "tokens_in",
+          "type": "u64"
+        },
+        {
+          "name": "min_sol_out",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "set_group",
+      "discriminator": [
+        178,
+        80,
+        18,
+        90,
+        205,
+        164,
+        86,
+        18
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "group"
+          ]
+        },
+        {
+          "name": "group",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  114,
+                  111,
+                  117,
+                  112
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "group.mint",
+                "account": "Group"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "new_owner",
+          "type": {
+            "option": "pubkey"
+          }
+        },
+        {
+          "name": "open_launch",
+          "type": {
+            "option": "bool"
+          }
+        }
+      ]
+    },
+    {
+      "name": "set_group_info",
+      "docs": [
+        "Owner-written description and link, inherited by every member's JSON.",
+        "Only before the first member exists: a collection's story is fixed once it starts."
+      ],
+      "discriminator": [
+        149,
+        50,
+        106,
+        54,
+        206,
+        173,
+        16,
+        163
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "group"
+          ]
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "group",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  114,
+                  111,
+                  117,
+                  112
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "writable": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "name": "url",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "set_nickname",
+      "docs": [
+        "Once, by the creator, if no nickname was given at claim."
+      ],
+      "discriminator": [
+        213,
+        22,
+        78,
+        19,
+        90,
+        40,
+        35,
+        13
+      ],
+      "accounts": [
+        {
+          "name": "creator",
+          "signer": true,
+          "relations": [
+            "launch"
+          ]
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "launch",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  97,
+                  117,
+                  110,
+                  99,
+                  104
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "writable": true
+        },
+        {
+          "name": "group_mint"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+        }
+      ],
+      "args": [
+        {
+          "name": "nickname",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "update_config",
+      "discriminator": [
+        29,
+        158,
+        252,
+        191,
+        10,
+        83,
+        219,
+        99
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "signer": true,
+          "relations": [
+            "config"
+          ]
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "p",
+          "type": {
+            "defined": {
+              "name": "ConfigParams"
+            }
+          }
+        },
+        {
+          "name": "new_admin",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "withdraw_creator_fees",
+      "discriminator": [
+        8,
+        30,
+        213,
+        18,
+        121,
+        105,
+        129,
+        222
+      ],
+      "accounts": [
+        {
+          "name": "creator",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "launch"
+          ]
+        },
+        {
+          "name": "launch",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  97,
+                  117,
+                  110,
+                  99,
+                  104
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "launch.mint",
+                "account": "Launch"
+              }
+            ]
+          }
+        },
+        {
+          "name": "curve",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  117,
+                  114,
+                  118,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "launch.mint",
+                "account": "Launch"
+              }
+            ]
+          }
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "withdraw_owner_fees",
+      "discriminator": [
+        184,
+        225,
+        128,
+        144,
+        143,
+        75,
+        36,
+        249
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "group"
+          ]
+        },
+        {
+          "name": "group",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  114,
+                  111,
+                  117,
+                  112
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "group.mint",
+                "account": "Group"
+              }
+            ]
+          }
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Config",
+      "discriminator": [
+        155,
+        12,
+        170,
+        224,
+        30,
+        250,
+        204,
+        130
+      ]
+    },
+    {
+      "name": "Curve",
+      "discriminator": [
+        191,
+        180,
+        249,
+        66,
+        180,
+        71,
+        51,
+        182
+      ]
+    },
+    {
+      "name": "Group",
+      "discriminator": [
+        209,
+        249,
+        208,
+        63,
+        182,
+        89,
+        186,
+        254
+      ]
+    },
+    {
+      "name": "Launch",
+      "discriminator": [
+        144,
+        51,
+        51,
+        163,
+        206,
+        85,
+        213,
+        38
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "Claimed",
+      "discriminator": [
+        217,
+        192,
+        123,
+        72,
+        108,
+        150,
+        248,
+        33
+      ]
+    },
+    {
+      "name": "Expired",
+      "discriminator": [
+        197,
+        227,
+        104,
+        103,
+        133,
+        50,
+        207,
+        161
+      ]
+    },
+    {
+      "name": "GroupCreated",
+      "discriminator": [
+        132,
+        94,
+        184,
+        198,
+        77,
+        165,
+        13,
+        26
+      ]
+    },
+    {
+      "name": "Launched",
+      "discriminator": [
+        209,
+        127,
+        29,
+        152,
+        129,
+        212,
+        189,
+        183
+      ]
+    },
+    {
+      "name": "Traded",
+      "discriminator": [
+        225,
+        202,
+        73,
+        175,
+        147,
+        43,
+        160,
+        150
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "BadArgs",
+      "msg": "bad argument"
+    },
+    {
+      "code": 6001,
+      "name": "TooLong",
+      "msg": "string too long"
+    },
+    {
+      "code": 6002,
+      "name": "BadFees",
+      "msg": "fee split does not add up"
+    },
+    {
+      "code": 6003,
+      "name": "WrongGroup",
+      "msg": "account does not belong to this group"
+    },
+    {
+      "code": 6004,
+      "name": "LaunchClosed",
+      "msg": "this group is closed to launches"
+    },
+    {
+      "code": 6005,
+      "name": "BudgetExhausted",
+      "msg": "group budget cannot cover this launch"
+    },
+    {
+      "code": 6006,
+      "name": "NotPending",
+      "msg": "launch is not pending"
+    },
+    {
+      "code": 6007,
+      "name": "NotClaimed",
+      "msg": "launch is not claimed"
+    },
+    {
+      "code": 6008,
+      "name": "BadSecret",
+      "msg": "wrong claim secret"
+    },
+    {
+      "code": 6009,
+      "name": "NotExpired",
+      "msg": "claim window still open"
+    },
+    {
+      "code": 6010,
+      "name": "HasTrades",
+      "msg": "a traded token never expires"
+    },
+    {
+      "code": 6011,
+      "name": "Slippage",
+      "msg": "slippage: output below minimum"
+    },
+    {
+      "code": 6012,
+      "name": "SoldOut",
+      "msg": "not enough tokens left on the curve"
+    },
+    {
+      "code": 6013,
+      "name": "Reserve",
+      "msg": "reserve too small"
+    },
+    {
+      "code": 6014,
+      "name": "Nothing",
+      "msg": "nothing to withdraw"
+    },
+    {
+      "code": 6015,
+      "name": "NicknameSet",
+      "msg": "nickname already set"
+    },
+    {
+      "code": 6016,
+      "name": "Math",
+      "msg": "math overflow"
+    },
+    {
+      "code": 6017,
+      "name": "PromptNotAllowed",
+      "msg": "this collection does not take minter prompts"
+    },
+    {
+      "code": 6018,
+      "name": "NamingFixed",
+      "msg": "this collection has fixed names, no nickname"
+    },
+    {
+      "code": 6019,
+      "name": "NotEmpty",
+      "msg": "only before the first member exists"
+    }
+  ],
+  "types": [
+    {
+      "name": "Claimed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "number",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Config",
+      "docs": [
+        "One per deployment. Also the signing authority (mint + update authority)",
+        "of every mint the program creates: seeds [\"config\"]."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "payer",
+            "docs": [
+              "Backend hot wallet allowed to launch on a group's budget."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "treasury",
+            "docs": [
+              "Receives the platform share of every fee."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "root_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "owner_bps",
+            "type": "u16"
+          },
+          {
+            "name": "creator_bps",
+            "type": "u16"
+          },
+          {
+            "name": "virtual_sol",
+            "type": "u64"
+          },
+          {
+            "name": "virtual_tokens",
+            "type": "u64"
+          },
+          {
+            "name": "supply",
+            "type": "u64"
+          },
+          {
+            "name": "claim_ttl",
+            "type": "i64"
+          },
+          {
+            "name": "groups",
+            "type": "u64"
+          },
+          {
+            "name": "launches",
+            "type": "u64"
+          },
+          {
+            "name": "uri_base",
+            "type": "string"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ConfigParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "payer",
+            "type": "pubkey"
+          },
+          {
+            "name": "treasury",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "owner_bps",
+            "type": "u16"
+          },
+          {
+            "name": "creator_bps",
+            "type": "u16"
+          },
+          {
+            "name": "virtual_sol",
+            "type": "u64"
+          },
+          {
+            "name": "virtual_tokens",
+            "type": "u64"
+          },
+          {
+            "name": "supply",
+            "type": "u64"
+          },
+          {
+            "name": "claim_ttl",
+            "type": "i64"
+          },
+          {
+            "name": "uri_base",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Curve",
+      "docs": [
+        "Holds the SOL reserve (as its own lamports) and the curve parameters,",
+        "copied from Config at launch so a curve never changes after birth."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "group",
+            "type": "pubkey"
+          },
+          {
+            "name": "virtual_sol",
+            "type": "u64"
+          },
+          {
+            "name": "virtual_tokens",
+            "type": "u64"
+          },
+          {
+            "name": "reserve",
+            "type": "u64"
+          },
+          {
+            "name": "sold",
+            "type": "u64"
+          },
+          {
+            "name": "trades",
+            "type": "u64"
+          },
+          {
+            "name": "volume",
+            "type": "u64"
+          },
+          {
+            "name": "fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "owner_bps",
+            "type": "u16"
+          },
+          {
+            "name": "creator_bps",
+            "type": "u16"
+          },
+          {
+            "name": "creator_fees",
+            "docs": [
+              "Creator share of fees, kept here until the creator withdraws (after claim)."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Expired",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "number",
+            "type": "u64"
+          },
+          {
+            "name": "recovered",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Group",
+      "docs": [
+        "Mirror of a Token-2022 group mint (root or sub-launchpad) plus what the",
+        "token program cannot hold: owner, budget, fees, theme."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "parent",
+            "docs": [
+              "Pubkey::default() for the root."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "number",
+            "docs": [
+              "member_number of this group inside its parent (0 for the root)."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "max_size",
+            "type": "u64"
+          },
+          {
+            "name": "size",
+            "docs": [
+              "Mirror of TokenGroup.size: members ever created (launches + sub-groups)."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "expired",
+            "type": "u64"
+          },
+          {
+            "name": "budget",
+            "docs": [
+              "Lamports held here to reimburse the backend payer's rent on launches."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "owner_fees",
+            "docs": [
+              "Lamports owed to the owner (their share of trading fees)."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "theme",
+            "type": "u8"
+          },
+          {
+            "name": "open_launch",
+            "docs": [
+              "Anyone may launch here (self-paid or through the backend)."
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "prefix",
+            "docs": [
+              "Member names are \"{prefix} #{number}\"."
+            ],
+            "type": "string"
+          },
+          {
+            "name": "symbol",
+            "type": "string"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GroupArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "prefix",
+            "type": "string"
+          },
+          {
+            "name": "symbol",
+            "type": "string"
+          },
+          {
+            "name": "theme",
+            "type": "u8"
+          },
+          {
+            "name": "max_size",
+            "type": "u64"
+          },
+          {
+            "name": "open_launch",
+            "type": "bool"
+          },
+          {
+            "name": "style",
+            "docs": [
+              "Optional encoded style from the generator; empty = the base theme."
+            ],
+            "type": "string"
+          },
+          {
+            "name": "naming",
+            "docs": [
+              "NAMING_FIXED or NAMING_NICKNAME."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "minter_prompt",
+            "docs": [
+              "Minters may type a few words that shape the seed and are stored as `prompt`."
+            ],
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GroupCreated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "number",
+            "type": "u64"
+          },
+          {
+            "name": "max_size",
+            "type": "u64"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "theme",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Launch",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "group",
+            "type": "pubkey"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "number",
+            "type": "u64"
+          },
+          {
+            "name": "seed",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "claim_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "created_at",
+            "type": "i64"
+          },
+          {
+            "name": "claimed_at",
+            "type": "i64"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "LaunchStatus"
+              }
+            }
+          },
+          {
+            "name": "nickname_set",
+            "docs": [
+              "The creator may set a nickname once (at claim or later)."
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LaunchArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "claim_hash",
+            "docs": [
+              "sha256 of the secret the visitor will present at claim."
+            ],
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "creator",
+            "docs": [
+              "Backend only: a wallet already known, claimed on the spot."
+            ],
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "prompt",
+            "docs": [
+              "Minter's words, only when the collection allows it; mixed into the seed."
+            ],
+            "type": {
+              "option": "string"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "LaunchStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Pending"
+          },
+          {
+            "name": "Claimed"
+          },
+          {
+            "name": "Expired"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Launched",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "group",
+            "type": "pubkey"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "number",
+            "type": "u64"
+          },
+          {
+            "name": "max_size",
+            "type": "u64"
+          },
+          {
+            "name": "seed",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "traits",
+            "type": "string"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Traded",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "trader",
+            "type": "pubkey"
+          },
+          {
+            "name": "is_buy",
+            "type": "bool"
+          },
+          {
+            "name": "sol",
+            "type": "u64"
+          },
+          {
+            "name": "tokens",
+            "type": "u64"
+          },
+          {
+            "name": "reserve",
+            "type": "u64"
+          },
+          {
+            "name": "sold",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ]
+}

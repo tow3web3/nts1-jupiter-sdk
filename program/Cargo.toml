@@ -1,0 +1,26 @@
+[package]
+name = "launchpad"
+version = "0.1.0"
+description = "PADPADPAD: numbered monsters, one Token-2022 group per launchpad, one bonding curve per monster"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "launchpad"
+
+[features]
+default = []
+cpi = ["no-entrypoint"]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
+anchor-debug = []
+custom-heap = []
+custom-panic = []
+
+[dependencies]
+anchor-lang = { version = "0.32.2", features = ["init-if-needed"] }
+anchor-spl = { version = "0.32.2", features = ["token_2022", "token_2022_extensions", "associated_token"] }
+spl-token-group-interface = "0.6.0"
+solana-sha256-hasher = "2.3"

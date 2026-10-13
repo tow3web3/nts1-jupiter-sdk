@@ -1,0 +1,29 @@
+[package]
+name = "nts1-jupiter-sdk"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+description = "Jupiter AMM adapter for NTS-1 bonding curves (program 5ZmEp1vQj45R3itxEo6hgH8aX4E8UNCkRsTw13gjchco): deserialise a Curve, quote buy/sell, build the native swap accounts."
+repository = "https://github.com/tow3web3/nts-1"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+jupiter-amm-interface = { git = "https://github.com/jup-ag/jupiter-amm-interface", package = "jupiter-amm-interface" }
+anyhow = "1"
+rust_decimal = "1.36"
+solana-account = { version = "4", features = ["serde"] }
+solana-instruction = "3"
+solana-pubkey = "4"
+
+[dev-dependencies]
+litesvm = "0.14.0"
+solana-keypair = "3"
+solana-signer = "3"
+solana-transaction = { version = "4", features = ["wincode"] }
+solana-clock = "3.1.1"
+solana-compute-budget-interface = "3"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+base64 = "0.22"
