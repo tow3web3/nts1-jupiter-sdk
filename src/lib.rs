@@ -1,7 +1,7 @@
 //! Jupiter AMM adapter for NTS-1 bonding curves.
 //!
 //! Every NTS-1 coin is a Token-2022 mint with its own permanent constant-product
-//! curve (program `5ZmEp1vQj45R3itxEo6hgH8aX4E8UNCkRsTw13gjchco`). One `Curve`
+//! curve (program `EvH7PZ34bGKi7SyiUP37G4o3B36XXhPpkWCxhfiMu9AN`). One `Curve`
 //! account per coin is the pool: it holds the SOL reserve as native lamports and
 //! the unsold supply sits in a `stock` token account owned by the program's
 //! `config` PDA. Swaps are `buy(sol_in, min_tokens_out)` and
@@ -31,7 +31,7 @@ use solana_pubkey::{pubkey, Pubkey};
 use curve::{fee_of, sol_out, tokens_out, CurveState};
 use encode::{OP_BUY, OP_SELL};
 
-pub const PROGRAM_ID: Pubkey = pubkey!("5ZmEp1vQj45R3itxEo6hgH8aX4E8UNCkRsTw13gjchco");
+pub const PROGRAM_ID: Pubkey = pubkey!("EvH7PZ34bGKi7SyiUP37G4o3B36XXhPpkWCxhfiMu9AN");
 pub const WSOL: Pubkey = pubkey!("So11111111111111111111111111111111111111112");
 pub const TOKEN_2022: Pubkey = pubkey!("TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb");
 pub const ASSOCIATED_TOKEN: Pubkey = pubkey!("ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL");

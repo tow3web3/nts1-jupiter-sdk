@@ -6,13 +6,13 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-launchpad = "5ZmEp1vQj45R3itxEo6hgH8aX4E8UNCkRsTw13gjchco"
+launchpad = "EvH7PZ34bGKi7SyiUP37G4o3B36XXhPpkWCxhfiMu9AN"
 
 [programs.devnet]
-launchpad = "5ZmEp1vQj45R3itxEo6hgH8aX4E8UNCkRsTw13gjchco"
+launchpad = "EvH7PZ34bGKi7SyiUP37G4o3B36XXhPpkWCxhfiMu9AN"
 
 [programs.mainnet]
-launchpad = "5ZmEp1vQj45R3itxEo6hgH8aX4E8UNCkRsTw13gjchco"
+launchpad = "EvH7PZ34bGKi7SyiUP37G4o3B36XXhPpkWCxhfiMu9AN"
 
 [provider]
 cluster = "localnet"

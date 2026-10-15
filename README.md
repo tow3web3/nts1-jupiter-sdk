@@ -3,7 +3,7 @@
 Jupiter AMM adapter for NTS-1 bonding curves. One `Curve` account = one market
 between SOL and one NTS-1 coin (a Token-2022 mint with 9 decimals).
 
-- Program: `5ZmEp1vQj45R3itxEo6hgH8aX4E8UNCkRsTw13gjchco` (mainnet-beta and devnet, same id)
+- Program: `EvH7PZ34bGKi7SyiUP37G4o3B36XXhPpkWCxhfiMu9AN` (mainnet-beta and devnet, same id)
 - Source: `../programs/launchpad` (Anchor 0.32), audited copy of the math in `src/curve.rs`
 - Interface: `jupiter-amm-interface` (`Amm` trait), label `NTS-1`
 

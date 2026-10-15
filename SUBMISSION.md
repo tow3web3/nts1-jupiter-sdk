@@ -9,7 +9,7 @@ program source), audit brief at `docs/AUDIT.md`, traction script `node scripts/t
 2. Post this:
 
 ```
-Hi, we're NTS-1 (https://nts1.fun), a Token-2022 standard where every coin is member #N of a capped collection and has its own permanent bonding curve from the first second. Program 5ZmEp1vQj45R3itxEo6hgH8aX4E8UNCkRsTw13gjchco on mainnet-beta.
+Hi, we're NTS-1 (https://nts1.fun), a Token-2022 standard where every coin is member #N of a capped collection and has its own permanent bonding curve from the first second. Program EvH7PZ34bGKi7SyiUP37G4o3B36XXhPpkWCxhfiMu9AN on mainnet-beta.
 
 We implemented the Amm trait: https://github.com/tow3web3/nts1-jupiter-sdk (Apache-2.0, forkable). It ships a LiteSVM parity suite on a committed mainnet snapshot: quote, then the native buy and sell, on-chain deltas equal the quotes exactly.
 
@@ -45,7 +45,7 @@ under 20 % impact). A coin with a few SOL of reserve passes, an empty one does n
 https://support.jup.ag/requests/new/amm-integrators
 
 - **Project:** NTS-1, the Numbered Token Standard, https://nts1.fun
-- **Program ID:** 5ZmEp1vQj45R3itxEo6hgH8aX4E8UNCkRsTw13gjchco (mainnet-beta)
+- **Program ID:** EvH7PZ34bGKi7SyiUP37G4o3B36XXhPpkWCxhfiMu9AN (mainnet-beta)
 - **SDK repository:** https://github.com/tow3web3/nts1-jupiter-sdk (Apache-2.0, forkable; parity suite in `tests/parity.rs`, fixtures committed)
 - **Description:** paste this:
 
