@@ -45,7 +45,7 @@ pub mod traits;
 use errors::PadError;
 use state::*;
 
-declare_id!("EvH7PZ34bGKi7SyiUP37G4o3B36XXhPpkWCxhfiMu9AN");
+declare_id!("Ak5FkaLsCjR9MADLshY5wh7Nj1kcJNnCtf4iXX8FiZBH");
 
 pub const TOKEN_DECIMALS: u8 = 9;
 pub const MIN_GROUP_SIZE: u64 = 10;

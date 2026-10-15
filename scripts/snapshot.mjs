@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 import { Connection, PublicKey } from "@solana/web3.js";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const PROGRAM = new PublicKey("EvH7PZ34bGKi7SyiUP37G4o3B36XXhPpkWCxhfiMu9AN");
+const PROGRAM = new PublicKey("Ak5FkaLsCjR9MADLshY5wh7Nj1kcJNnCtf4iXX8FiZBH");
 const mint = new PublicKey(process.argv[2] ?? (() => { throw new Error("usage: snapshot.mjs <coin mint>"); })());
 const rpc = process.env.RPC ?? "https://api.mainnet-beta.solana.com";
 const conn = new Connection(rpc, "confirmed");

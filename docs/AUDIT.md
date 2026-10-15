@@ -4,7 +4,7 @@ For the auditor. Scope, invariants, threat model, how to build and test.
 
 ## What it is
 
-Anchor 0.32 program `EvH7PZ34bGKi7SyiUP37G4o3B36XXhPpkWCxhfiMu9AN` (mainnet-beta,
+Anchor 0.32 program `Ak5FkaLsCjR9MADLshY5wh7Nj1kcJNnCtf4iXX8FiZBH` (mainnet-beta,
 upgrade authority `HY8pKY8156hWXjL2z8T15siHQzW7VdUmyochRNb3sw6N`). ~1,500 lines of
 Rust in `programs/launchpad/src/` (`lib.rs` handlers and accounts, `state.rs`,
 `curve.rs` math, `traits.rs` seed to traits, `errors.rs`). Source is public in

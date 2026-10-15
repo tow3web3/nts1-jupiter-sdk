@@ -3,7 +3,7 @@ name = "nts1-jupiter-sdk"
 version = "0.1.0"
 edition = "2021"
 license = "Apache-2.0"
-description = "Jupiter AMM adapter for NTS-1 bonding curves (program EvH7PZ34bGKi7SyiUP37G4o3B36XXhPpkWCxhfiMu9AN): deserialise a Curve, quote buy/sell, build the native swap accounts."
+description = "Jupiter AMM adapter for NTS-1 bonding curves (program Ak5FkaLsCjR9MADLshY5wh7Nj1kcJNnCtf4iXX8FiZBH): deserialise a Curve, quote buy/sell, build the native swap accounts."
 repository = "https://github.com/tow3web3/nts-1"
 
 [lib]
