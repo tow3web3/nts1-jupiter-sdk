@@ -99,7 +99,7 @@ fn swap_ix(amm: &Nts1Amm, user: &Pubkey, source_mint: Pubkey, destination_mint: 
     Instruction { program_id: PROGRAM_ID, accounts: s.account_metas, data: encode_swap_with_min(&s.swap, in_amount, 0) }
 }
 
-const MINT: &str = "EqEcihF5hirUEaQj3TpFYGLJ2TejtuydoEtzqTa5u1xQ";
+const MINT: &str = "G3nAYGwxkQpUdn6Jdnd6u3PFRebu5BvkqqkwGMYttkTL";
 
 #[test]
 fn buy_then_sell_match_quotes_exactly() {
